@@ -7,16 +7,16 @@ uribase=https://buildlogs.centos.org/rolling/7/isos/x86_64/
 uri=$uribase$iso
 
 time (
+	echo "Downloading latest CentOS 7 ISO image..."
 	wget -c -N $uri -q --show-progress --progress=bar:force:noscroll -O /cache/$iso
 	ls -lah /cache/$iso
 	file /cache/$iso
 
-	(mkdir -p /mnt/iso &> /dev/null || exit 0)
-	mount -o loop /cache/$iso /mnt/iso
+	echo "Preparing ISO work dir..."
+	(rm -fr /cache/centos &> /dev/null || exit 0 && mkdir /cache/centos)
 
-	(mkdir /cache/centos &> /dev/null || exit 0)
-
-	rsync -a --info=progress2 /mnt/iso/ /cache/centos
+	echo "Extracting ISO..."
+	bsdtar -xf $iso -C centos/
 
 	(mkdir -pv /cache/rpms || exit 0)
 
@@ -35,13 +35,16 @@ time (
 
 	pushd /cache/centos
 
+	echo "Generating RPM repo..."
 	createrepo -g /cache/centos/repodata/*-comps.xml .
 
 	echo "Creating ISO..."
 	mkisofs -q -o /output/centos-7-coaster.iso -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -V "CentOS 7 x86_64 COASTER" -R -J -v -T . &> /dev/null
 
+	# implant MD5 checksum
 	implantisomd5 /output/centos-7-coaster.iso
 	file /output/centos-7-coaster.iso
 
+	echo "Calculating SHA256 checksum..."
 	sha256sum /output/centos-7-coaster.iso
 )

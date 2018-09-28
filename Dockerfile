@@ -8,7 +8,7 @@ RUN yum -y install deltarpm epel-release && yum clean all && rm -fr /var/cache/y
 RUN yum -y update && rm -fr /var/cache/yum
 RUN yum repolist
 RUN yum -y install gcc gnutls-devel mkisofs isomd5sum rpm-build yum-utils createrepo \
-	curl rsync && yum clean all && rm -fr /var/cache/yum
+	curl bsdtar && yum clean all && rm -fr /var/cache/yum
 
 # Manually build and install recent version of wget
 WORKDIR /tmp
