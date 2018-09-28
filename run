@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+# generate rsa keypair if doesn't exist yet
+
+if [ ! -e keys/id_rsa ] || [ ! -e keys/id_rsa.pub ]; then
+	mkdir -v keys
+	ssh-keygen -t rsa -N "" -f keys/id_rsa
+fi
+
+docker build -t coaster .
+docker run --privileged --mount source=coaster-cache,target=/cache -v $(pwd)/output:/output coaster

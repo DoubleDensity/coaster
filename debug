@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker build -t coaster .
+docker run --privileged -it --entrypoint=/bin/bash --mount source=coaster-cache,target=/cache -v $(pwd)/output:/output coaster
