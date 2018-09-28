@@ -1,6 +1,6 @@
 # Coaster
 
-This is a Docker container for automatically building minimal rolling CentOS 7 ISO images with unattended installation routines.
+This is a Docker (version 17.06+) container for automatically building minimal rolling CentOS 7 ISO images with unattended installation routines.
 
 Currently it includes open-vm-tools, injects an RSA public key, enables DHCP & SSH w/ passwordless sudo and installs to /dev/sda.
 
