@@ -2,8 +2,8 @@
 
 set -e
 
-iso=CentOS-7-x86_64-Minimal.iso
-uribase=https://buildlogs.centos.org/rolling/7/isos/x86_64/
+iso=CentOS-7-x86_64-Minimal-1708.iso
+uribase=http://archive.kernel.org/centos-vault/7.4.1708/isos/x86_64/
 uri=$uribase$iso
 
 time (
