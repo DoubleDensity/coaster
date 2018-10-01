@@ -5,7 +5,7 @@ set -e
 # generate rsa keypair if doesn't exist yet
 
 if [ ! -e keys/id_rsa ] || [ ! -e keys/id_rsa.pub ]; then
-	mkdir -v keys
+	(mkdir -v keys || exit 0)
 	ssh-keygen -t rsa -N "" -f keys/id_rsa
 fi
 
