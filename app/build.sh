@@ -23,9 +23,17 @@ time (
 	echo "Downloading open-vm-tools RPMs..."
 	yumdownloader --resolve --destdir=/cache/rpms/open-vm-tools/ open-vm-tools &> /dev/null
 
+	echo "Downloading GCC RPMs..."
+	yumdownloader --resolve --destdir=/cache/rpms/gcc/ gcc &> /dev/null
+
+	echo "Downloading Python devel RPMs..."
+	yumdownloader --resolve --destdir=/cache/rpms/python-devel/ python-devel &> /dev/null
+
 	echo "Injecting configs & RPMs in to ISO tree..."
 	cp /configs/ks.cfg /configs/isolinux.cfg /cache/centos/isolinux
 	cp /cache/rpms/open-vm-tools/* /cache/centos/Packages
+	cp /cache/rpms/gcc/* /cache/centos/Packages
+	cp /cache/rpms/python-devel/* /cache/centos/Packages
 
 	echo "Injecting RSA keys in to kickstart..."
 	# inject public key into kickstart
