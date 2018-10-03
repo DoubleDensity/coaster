@@ -21,26 +21,14 @@ time (
 	(mkdir -pv /cache/rpms || exit 0)
 	pushd /cache/rpms
 
-	echo "Downloading open-vm-tools RPMs..."
-	repotrack -p open-vm-tools open-vm-tools
-
-	echo "Downloading GCC RPMs..."
-	repotrack -p gcc gcc
-
-	echo "Downloading Python devel RPMs..."
-	repotrack -p python-devel python-devel
-	
-	echo "Downloading Kernel devel RPMs..."
-	repotrack -p kernel-devel kernel-devel
+	echo "Downloading additional RPMs..."
+	repotrack --arch=x86_64 gcc kernel-devel python-devel open-vm-tools
 
 	popd
 
 	echo "Injecting configs & RPMs in to ISO tree..."
 	cp /configs/ks.cfg /configs/isolinux.cfg /cache/centos/isolinux
-	cp /cache/rpms/open-vm-tools/* /cache/centos/Packages
-	cp /cache/rpms/gcc/* /cache/centos/Packages
-	cp /cache/rpms/python-devel/* /cache/centos/Packages
-	cp /cache/rpms/kernel-devel/* /cache/centos/Packages
+	cp /cache/rpms/* /cache/centos/Packages
 
 	echo "Injecting RSA keys in to kickstart..."
 	# inject public key into kickstart
