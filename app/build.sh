@@ -22,7 +22,7 @@ time (
 	pushd /cache/rpms
 
 	echo "Downloading additional RPMs..."
-	repotrack --arch=x86_64 gcc kernel-devel python-devel open-vm-tools
+	repotrack --arch=x86_64 gcc kernel-devel python-devel open-vm-tools iptables-utils
 
 	popd
 
