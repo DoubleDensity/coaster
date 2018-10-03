@@ -19,21 +19,28 @@ time (
 	bsdtar -xf $iso -C centos/
 
 	(mkdir -pv /cache/rpms || exit 0)
+	pushd /cache/rpms
 
 	echo "Downloading open-vm-tools RPMs..."
-	yumdownloader --resolve --destdir=/cache/rpms/open-vm-tools/ open-vm-tools &> /dev/null
+	repotrack -p open-vm-tools open-vm-tools
 
 	echo "Downloading GCC RPMs..."
-	yumdownloader --resolve --destdir=/cache/rpms/gcc/ gcc &> /dev/null
+	repotrack -p gcc gcc
 
 	echo "Downloading Python devel RPMs..."
-	yumdownloader --resolve --destdir=/cache/rpms/python-devel/ python-devel &> /dev/null
+	repotrack -p python-devel python-devel
+	
+	echo "Downloading Kernel devel RPMs..."
+	repotrack -p kernel-devel kernel-devel
+
+	popd
 
 	echo "Injecting configs & RPMs in to ISO tree..."
 	cp /configs/ks.cfg /configs/isolinux.cfg /cache/centos/isolinux
 	cp /cache/rpms/open-vm-tools/* /cache/centos/Packages
 	cp /cache/rpms/gcc/* /cache/centos/Packages
 	cp /cache/rpms/python-devel/* /cache/centos/Packages
+	cp /cache/rpms/kernel-devel/* /cache/centos/Packages
 
 	echo "Injecting RSA keys in to kickstart..."
 	# inject public key into kickstart
